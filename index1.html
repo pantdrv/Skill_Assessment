@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html ng-app="demoApp" ng-controller="DemoCtrl">
+
+<head>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/emailjs-com@2.4.0/dist/email.min.js">
+    </script>
+
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.18/angular.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.18/angular-animate.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="./src/angular-steps.js"></script>
+    <script src="./app.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <link rel="stylesheet" href="./style.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>angular-steps demo</title>
+    <link rel="stylesheet" href="./src/angular-steps.css">
+    <!-- <script>
+        $(window).on("blur focus", function(e) {
+            var prevType = $(this).data("prevType");
+
+            if (prevType != e.type) { //  reduce double fire issues
+                switch (e.type) {
+                    case "blur":
+                        // $('#same').css("display",'block');
+                        //$("#main").css('display','none')
+                        window.setTimeout(stop_page(), 5000);
+                        break;
+                    case "focus":
+                        //$('#same').text("Focused");
+                        break;
+                }
+            }
+
+            $(this).data("prevType", e.type);
+        })
+
+        function stop_page() {
+            //$('#same').css("display", 'block');
+            $("#main").css('display', 'none');
+
+        }
+    </script> -->
+
+    <script>
+    </script>
+</head>
+
+<body>
+    <div>
+        <h1 id="same" class="same">
+            You have been disqualified from the test
+        </h1>
+    </div>
+    <form id="test_form">
+        <steps id="main" on-finish="finished()" current-step="stepName">
+            <step class="step1" name="first">
+                <div class="steps">
+                    <div class="flex-container">
+                        <div class="left_menu">
+                            <div>
+                                <br>
+
+                                <h1>Read Instructions carefully</h1>
+                                <br>
+                                <ul>
+                                    <li><b>Once you click on ready to go button screen will be in full panel</b></li>
+                                    <br>
+                                    <br>
+                                    <li> <b>There is timer on the top centre of page. 5 minutes before finish time you will be notified</b> </li>
+                                    <br>
+                                    <br>
+                                    <li> <b>Dont open another tab or close the browser or will receive this message on screen "You are disqualified from test"</b></li>
+                                    <br>
+                                    <br>
+                                    <li> <b>Best of luck</b></li>
+                                    <br>
+
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="inner_container_candiate">
+                            <div id="starttime"></div>
+
+                            <div id="endtime"></div>
+
+                            <div id="showtime"></div>
+                            <div style="margin-left: 600px;">
+                                <button type="button" class="btn btn-secondary btn-lg" step-next ng-click="fullpage()">I am ready,Lets start</button>
+
+                            </div>
+                            <h1 class="heading_1">
+                                Submit Your Details
+                            </h1>
+                            <div class="detail">
+                                <h3>
+                                    Your Name
+                                </h3>
+                                <input type="text" id="your_name" class="your_name">
+                                <h3>
+                                    Email Id
+                                </h3>
+                                <input type="text" id="your_email" class="your_email">
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </step>
+            <step class="step2" name="first" onload="f1()">
+                <div class="steps">
+                    <div class="container">
+                        <div class="inner_container">
+                            <div id="starttime"></div>
+
+                            <div id="endtime"></div>
+
+                            <div id="showtime"></div>
+                            <div class="timer">
+                                <h3 id="count_1">Time Left {{countDown}} sec</h3>
+                            </div>
+                            <div style="margin-left: 700px;">
+                                <button type="button" class="btn btn-secondary btn-lg" step-next ng-click="fetch()">Next</button>
+                            </div>
+                            <h1 class="heading_1">
+                                Tell Us about yourself
+                            </h1>
+                        </div>
+                        <div class="input_text">
+                            <textarea rows="5" id="tell" ng-model="tell" class="tell" cols="60" name="description">
+                            Enter details here...
+                         </textarea>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </step>
+            <step class="step3">
+                <div class="steps">
+                    <div class="container">
+                        <div class="button_np">
+                            <button type=" button " class="btn btn-secondary btn-lg  prev" step-previous>Prev</button>
+                            <button type="button " class="btn btn-secondary btn-lg " step-next ng-click="fetch1() ">Next</button>
+                        </div>
+
+                        <div class="inner_container">
+                            <div class="timer">
+                                <h3 id="count_2">Time left:{{countDown1}} sec </h3>
+                            </div>
+                            <h1 class="heading_1 ">
+                                What is cookies in jquery
+                            </h1>
+                        </div>
+                        <div class="input_text">
+                            <textarea rows="5" id="cook" ng-model="cook " class="tell " cols="60" name="description">
+                            Enter details here...
+                         </textarea>
+                        </div>
+                    </div>
+                </div>
+            </step>
+            <step class="step4 ">
+                <div class="steps ">
+                    <div class="container ">
+                        <div class="button_np">
+                            <button type="button " class="btn btn-secondary btn-lg " step-previous>Prev</button>
+
+                            <button type="button " class="btn btn-secondary btn-lg " step-next ng-click="fetch2() ">Next</button>
+                        </div>
+                        <h1 class="heading_1 ">
+                            Explain Event Loop and asynchronous programming
+                        </h1>
+
+                        <div class="input_text">
+                            <textarea rows="5" id="asynch" ng-model="tell2 " class="tell " cols="60" name="description">
+                                    Enter details here...
+                                 </textarea>
+                        </div>
+                    </div>
+                </div>
+            </step>
+            <step class="step4 ">
+                <div class="steps ">
+                    <div class="container ">
+                        <div class="button_np">
+                            <button type="button " class="btn btn-secondary btn-lg " step-previous>Prev</button>
+
+                            <button type="button " class="btn btn-secondary btn-lg " step-next ng-click="fetch4() ">Next</button>
+                        </div>
+                        <h1 class="heading_1 ">
+                            Find output of code
+                        </h1>
+                        <h2 class="heading_1 ">
+                            const length = 4;
+                        </h2>
+                        <h2 class="heading_1 "> const numbers = []; </h2>
+                        <h2 class="heading_1 ">for (var i = 0; i
+                            < length; i++);</h2>
+                                <h2 class="heading_1 ">{ numbers.push(i + 1); </h2>
+                                <h2 class="heading_1 ">} numbers; </h2>
+
+                                <div class="input_text">
+                                    <input type="text " id="push" ng-model="push " class="tell ">
+                                </div>
+                    </div>
+                </div>
+            </step>
+            <step class="step4 ">
+                <div class="steps ">
+                    <div class="container ">
+                        <div class="button_np">
+                            <button type="button " class="btn btn-secondary btn-lg " step-previous>Prev</button>
+
+                            <button type="button " class="btn btn-secondary btn-lg " step-next ng-click="fetch5() ">Next</button>
+                        </div>
+                        <h1 class="heading_1 ">
+                            Find output of code
+                        </h1>
+                        <h3 class="heading_1 ">
+                            function foo() { let a;window.b = 0; a = window.b; a++; return a;} foo(); typeof a; typeof window.b </h3>
+                    </div>
+                    <div class="input_text_output">
+                        <input type="text " id="typeof" ng-model="typeof " class="tell ">
+                    </div>
+                </div>
+                </div>
+            </step>
+            <step class="step4 ">
+                <div class="steps ">
+                    <div class="container ">
+                        <div class="button_np">
+                            <button type="button " class="btn btn-secondary btn-lg " step-previous>Prev</button>
+                            <button type="button " class="btn btn-secondary btn-lg " step-next ng-click="fetch6() ">Next</button>
+                        </div>
+                        <h1 class="heading_1 ">
+                            Define bind,call and apply in your words.
+                        </h1>
+
+                        <div class="input_text">
+                            <textarea rows="5" id="binding" ng-model="binding " class="tell " cols="60" name="description">
+                                    Enter details here...
+                                 </textarea>
+                        </div>
+                    </div>
+                </div>
+            </step>
+            <step class="step5 " name="last ">
+                <div class="steps ">
+                    <div class="container ">
+
+                        <div class="button_np">
+                            <button type=" button " class="btn btn-secondary btn-lg  prev" step-previous>Prev</button>
+                            <button type="button " class="btn btn-secondary btn-lg " step-next ng-click="fetch3() ">Submit</button>
+                        </div>
+                        <h1 class="heading_1 ">
+                            What is callback function and promise in javascript
+                        </h1>
+
+                        <div class="input_text">
+                            <textarea rows="5" id="callback" ng-model="callback " class="tell " cols="60" name="description">
+                                    Enter details here...
+                                 </textarea>
+                        </div>
+                    </div>
+                </div>
+            </step>
+        </steps>
+    </form>
+</body>
+
+</html>
